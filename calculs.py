@@ -419,7 +419,6 @@ def calc_time_by_dist(ir_session):
         ir_session.donnees["drivers"][i]["k"] = k
 
 
-
 # Record lapdistpct
 def calc_lapdistpct_by_time(ir_session):
     me = ir_session.donnees["caridxME"]
