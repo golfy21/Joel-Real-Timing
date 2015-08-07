@@ -1,0 +1,10 @@
+tires_all_joy = 3       	# joystick number for set all tires, set -1 if you don't want to use it
+tires_all_button = 0    	# joystick button
+tires_none_joy = 3     		# joystick number for set none tires, set -1 if you don't want to use it
+tires_none_button = 1   	# joystick button
+refuel_joy = 3         	 	# joystick number for set the amount of fuel calculated, set -1 if you don't want to use it
+refuel_button = 3       	# joystick button
+switch_f3box_joy = 3		# joystick number for switching to F3 box style
+switch_f3box_button = 2       	# joystick button
+trackmap_joy = 3		# joystick number for switching to trackmap
+trackmap_button = 7       	# joystick button

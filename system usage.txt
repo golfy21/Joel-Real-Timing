@@ -1,0 +1,28 @@
+28 pilotes
+
+fps	firefox		timing.exe	bandwitch
+1	1 %		1 %		50 Kbits/s
+2	%		%		 Kbits/s
+3	%		%		 Kbits/s		
+6	
+10	5 %		2.3 %		250 Kbits/s
+12
+15
+20
+30
+60	17 %		7 %		930 Kbits/s
+
+
+63 pilotes
+
+fps	firefox		timing.exe	bandwitch
+1	%		1%
+2
+3
+6
+10	%		? %		? Kbits/s		
+12
+15
+20
+30
+60

@@ -1,0 +1,80 @@
+
+Installation Notes :
+
+1) Run the setup file and follow the steps (don't install in program files or you will need to run the program as administrator)
+2) Run "JRT Server" and then look at "My Documents" folder, you should have a new folder created named "Joel Real Timing" where you have config files you can edit.
+
+
+To run it locally on your iRacing computer :
+
+1) Run "JRT Server"
+2) Open Timing.html (I tested on Chrome and Firefox. Chrome is much smoother with less CPU use)
+3) Start iRacing
+4) Enjoy !
+
+
+To run it on an external device with WIFI :
+
+1) Edit the "webserver port.txt" file with the port you want to use for your http server (usually 80 but that doesn't work on my computer)
+2) Run "JRT Server"
+3) Open a browser on your device like chrome or firefox
+4) Enter the adress : http://localip:PORT/timing.html where localip is the local ip or your iRacing computer and PORT is the port you entered in 1)
+5) Create a shortcut on your mobil desktop to run it in fullscreen
+
+To run it on an external device with USB tethering mode:
+
+1) Edit the "webserver port.txt" file with the port you want to use for your http server (usually 80 but that doesn't work on my computer)
+2) Edit the tethering_mode.txt file : set 1 on the first line and the IPv4 adress of your phone connection on the second line
+3) Run "JRT Server"
+4) Open a browser on your device like chrome or firefox
+5) Enter the adress : http://localip:PORT/timing.html where localip is the ip you entered in 2) and PORT is the port you entered in 1)
+6) Create a shortcut on your mobil desktop to run it in fullscreen
+
+
+To share your timing on the internet :
+
+1) Run "JRT Server"
+2) Edit the "webserver port.txt" file with the port you want to use for your http server (usually 80 but that doesn't work on my computer)
+3) Configure your router to open the TCP ports 8000 (or the one you choose above) and 8003. It depends on your router but on mine I have to add a firewall rule for each port and the activate them telling your router to redirect it to your local IP.
+4) On the internet, people enter the adress : http://webip:PORT/timing.html where webip is your ip on the web and PORT is the port you entered in 2)
+
+NOTES : 
+- I use the ports 8001 to communicate with the server for the local version
+- I use the port 8003 to transfert the datas through the internet for the broadcast version
+
+
+OPTIONS :
+
+Each time you edit a config file you have to stop and restart "JRT server"
+Here are the Config files that you can edit in the "My Documents/Joel Real Timing" folder:
+- fps.txt : the refresh rate of the web page
+- fps_broadcast.txt : the refresh rate of the web page for the broadcast
+- fps_calc.txt : the refresh rate for the speed calculations.
+- template.txt : you can change the columns width and the columns order for the timing.html page
+  you can also choose to hide the paypal and/or the infos bars by setting the disp_paypal value and/or the disp_infosbar value to 0.
+- template2.txt : you can change the columns width and the columns order ... for the timing2.html page
+- template3.txt : you can change the columns width and the columns order ... for the timing3.html page
+- webserver port.txt : the port you want to use for the webserver
+- pitstrategy folder : edit the files corresponding to the car and the track for more accurate calculations on Laps remaining.
+- buttons.txt : this allow you to set a button for fuel, tires and switching to F3 box style (use joystick_test.exe to know the values to set)
+
+
+- By default, the refresh rate is 1 frames per second. You may increase it but for some tablets, it's too fast and it can induce some lags.
+- Click on the session infos at the top and you will be able to select the columns you want to display. Then, just click on a title.
+  You can also change the modes for NAME, iR and Lic by clicking on the title. But be careful that for the moment, the changes you do are not saved.
+- Click on the fuel needed number to set the amount of fuel to add in iRacing
+- Click on Tank info to swap between 'last lap' and 'last 5 laps' for the fuel calculations
+- You can display only the class you want by clicking on the SOF corresponding.
+- The number of incident is an estimation only of the off-tracks and could be wrong depending on the connections of the drivers.
+- Click anywhere in the timing at the right and it will display an options box where you set autoscroll.
+- Click anywhere in the timing at the left and it will display the trackmap.
+
+
+IMORTANT !
+- Set the maximum car in iRacing to 63 if you want to see all the cars in the timing
+
+
+
+
+Cheers,
+Joel G.
