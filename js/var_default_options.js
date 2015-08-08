@@ -11,6 +11,8 @@ tab_titres_all_default = ["gain", "cgain", "distpct", "accel", "pos", "cpos", "s
 // Colonnes utilisées par default
 tab_titres = ["pos", "cpos", "num", "name", "ir", "lic", "rel", "delta", "gap", "last", "best", "lc", "speed", "topspeed", "apex_speed", "max_speed", "stint", "pit", "pitroadtime", "pitstalltime", "inc"];
 
+
+disp_kg_livre = 0       // Set 1 if you want to display the fuel in kg or in pounds
 disp_trackmap = 0       // Set 1 if you want to display the trackmap
 f3_box = 0              // Set 1 if you want to display relatives like the F3 box in iRacing
 tires_buttons = 1       // Set 0 if you don't need tires buttons

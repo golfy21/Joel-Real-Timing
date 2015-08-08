@@ -10,10 +10,12 @@ function deltas_and_gapcolor() {
                 lapdistpctraw_i = donnees.d[i].dp - donnees.d[i].lc;
 
                 //deltaxold[i] = deltax[i];
-                if (donnees.d[i].pos > donnees.d[selected_idxjs].pos) {
-                    deltax[i] = (Math.floor(lapdistpctraw_i * coef_w * w['delta'])) % (coef_w * w['delta'])
-                } else {
-                    deltax[i] = (Math.floor(lapdistpctraw_s * coef_w * w['delta'])) % (coef_w * w['delta'])
+                if (selected_idxjs in donnees.d) {
+                    if (donnees.d[i].pos > donnees.d[selected_idxjs].pos) {
+                        deltax[i] = (Math.floor(lapdistpctraw_i * coef_w * w['delta'])) % (coef_w * w['delta'])
+                    } else {
+                        deltax[i] = (Math.floor(lapdistpctraw_s * coef_w * w['delta'])) % (coef_w * w['delta'])
+                    }
                 }
 
 

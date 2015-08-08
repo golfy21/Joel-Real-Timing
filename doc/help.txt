@@ -57,8 +57,6 @@ Here are the Config files that you can edit in the "My Documents/Joel Real Timin
 - webserver port.txt : the port you want to use for the webserver
 - pitstrategy folder : edit the files corresponding to the car and the track for more accurate calculations on Laps remaining.
 - buttons.txt : this allow you to set a button for fuel, tires and switching to F3 box style (use joystick_test.exe to know the values to set)
-
-
 - By default, the refresh rate is 1 frames per second. You may increase it but for some tablets, it's too fast and it can induce some lags.
 - Click on the session infos at the top and you will be able to select the columns you want to display. Then, just click on a title.
   You can also change the modes for NAME, iR and Lic by clicking on the title. But be careful that for the moment, the changes you do are not saved.
@@ -66,8 +64,10 @@ Here are the Config files that you can edit in the "My Documents/Joel Real Timin
 - Click on Tank info to swap between 'last lap' and 'last 5 laps' for the fuel calculations
 - You can display only the class you want by clicking on the SOF corresponding.
 - The number of incident is an estimation only of the off-tracks and could be wrong depending on the connections of the drivers.
-- Click anywhere in the timing at the right and it will display an options box where you set autoscroll.
-- Click anywhere in the timing at the left and it will display the trackmap.
+- Click anywhere in the timing at the right and it will display an options box.
+- Click anywhere in the timing at the left and it will display the trackmap (note that the trackmap is auto-generated and it doesn't work if you don't drive the car) .
+- When you use the relatives F3 box mode, the driver selected is automatically the driver focused in iRacing and you can't change it directly on the web page.
+
 
 
 IMORTANT !

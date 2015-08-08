@@ -5,6 +5,7 @@
 // You can edit the line below if you want to change which column is displayed or not and the order as well:
 tab_titres = ["pos", "cpos", "num", "name", "rel", "delta", "gap", "last", "best", "lc", "stint"];
 
+disp_kg_livre = 0       // Set 1 if you want to display the fuel in kg or in pounds
 disp_trackmap = 0       // Set 1 if you want to display the trackmap
 f3_box = 0		// Set 1 if you want to use F3 box mode
 tires_buttons = 1	// Set 0 if you want to delete the tires buttons

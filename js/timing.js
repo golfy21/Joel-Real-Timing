@@ -78,6 +78,17 @@ function update_datas(text) {
         send_trackmap_nbrequest = donnees.stm
     }
 
+    // On calcule les coefficient d'essence en fonction des options
+    if (disp_kg_livre == 1) {
+        if (donnees.u == 1) {  // systeme metric
+            coef_fuel = 0.75
+        } else {
+            coef_fuel = 1 / (0.45359237 / 0.75 / 3.78541178);        //  1 Ga = 3.78541178 L     1 livre = 0.45359237 kg
+        }
+    } else {
+        coef_fuel = 1;
+    }
+
     if (donnees.d != undefined) {
 
         // Dès qu'on reçoit toutes les données on dessine le circuit
@@ -111,7 +122,7 @@ function update_datas(text) {
 
             selected_idxjsold = selected_idxjs
         }
-        // En mode F3 box on sélectionne automatiquement le pilote sélectionné dans iRAcing
+        // En mode F3 box on sélectionne automatiquement le pilote sélectionné dans iRacing
         if (f3_box == 1) {
             selected_idxjsold = selected_idxjs;
             selected_idxjs = selected_idx;
@@ -321,6 +332,7 @@ function change_idxsel(i) {
 
 
 function change_kg_livre() {
+    disp_kg_livre = 1;
     if (donnees.u == 1) {  // systeme metric
         coef_fuel = 0.75
     } else {
@@ -331,7 +343,8 @@ function change_kg_livre() {
 
 
 function change_litre_gallon() {
-    coef_fuel = 1
+    disp_kg_livre = 0;
+    coef_fuel = 1;
     update_datas(-1)
 }
 

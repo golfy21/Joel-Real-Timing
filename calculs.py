@@ -731,12 +731,13 @@ def calc_fuel(ir_session):
     me = ir_session.donnees["caridxME"]
     if me in ir_session.donnees["drivers_true"]:
         lcold = ir_session.fuel_lcold
-        lc = ir_session.donnees["drivers"][me]["lc"]
+        #lc = ir_session.donnees["drivers"][me]["lc"]
+        lc = int(ir_session.donnees["drivers"][me]["distpct"])  # More accurate than LC from sdk
         lcd = ir_session.donnees["drivers"][me]["distpct"]
         ir_session.fuel = ir_session.ir["FuelLevel"]
         if ((lc > lcold) & (lcold >= 0)) | (lcd < 0):
             # Si le tour est valide et qu'on n'a pas pitté
-            if (ir_session.donnees["drivers"][me]["islastvalid"]) & (ir_session.donnees["drivers"][me]["pitlastlap"] == 0):
+            if ((ir_session.donnees["drivers"][me]["onpitroad"] == 0) & ir_session.donnees["drivers"][me]["islastvalid"]) & (ir_session.donnees["drivers"][me]["pitlastlap"] == 0):
                 # Consommation du dernier tour
                 ir_session.conso = ir_session.fuelold - ir_session.fuel
                 if ir_session.conso < 0:
@@ -773,14 +774,32 @@ def calc_fuel(ir_session):
 
 # Drivers position on the track
 def calc_posldp(ir_session):
+    caridxCAM = ir_session.ir["CamCarIdx"]
+    ldpcam = ir_session.donnees["drivers"][caridxCAM]["distpct"] - int(ir_session.donnees["drivers"][caridxCAM]["distpct"])
     nb = 0
     for i in ir_session.donnees["drivers_true"]:
         pos = 1
-        if ir_session.donnees["drivers"][i]["distpct"] > 0:
+        #if (ir_session.donnees["drivers"][i]["distpct"] > 0) & (ir_session.donnees["drivers"][i]["onpitroad"] == 0):
+        if (ir_session.donnees["drivers"][i]["distpct"] > 0):
             ldpi = ir_session.donnees["drivers"][i]["distpct"] - int(ir_session.donnees["drivers"][i]["distpct"])
+
+            # On ne met le pilote devant la cam que s'il est moins d'un demi-tour devant (et pareil derrière)
+            if ldpi - ldpcam > 0.5:
+                ldpi -= 1
+            if ldpi - ldpcam < -0.5:
+                ldpi += 1
+
             for j in ir_session.donnees["drivers_true"]:
-                if ir_session.donnees["drivers"][j]["distpct"] > 0:
+                #if (ir_session.donnees["drivers"][j]["distpct"] > 0) & (ir_session.donnees["drivers"][j]["onpitroad"] == 0):
+                if (ir_session.donnees["drivers"][j]["distpct"] > 0):
                     ldpj = ir_session.donnees["drivers"][j]["distpct"] - int(ir_session.donnees["drivers"][j]["distpct"])
+
+                    # On ne met le pilote devant la cam que s'il est moins d'un demi-tour devant (et pareil derrière)
+                    if ldpj - ldpcam > 0.5:
+                        ldpj -= 1
+                    if ldpj - ldpcam < -0.5:
+                        ldpj += 1
+
                     if ldpj > ldpi:
                         pos += 1
                     if (ldpj == ldpi) & (j > i):
@@ -790,10 +809,10 @@ def calc_posldp(ir_session):
             #print(pos, ir_session.donnees["drivers"][i]["num"])
         else:
             ir_session.donnees["drivers"][i]["posldp"] = -1
-    ir_session.nb_piste = nb       # nombre de pilotes en piste ou dans les stands
+    ir_session.nb_piste = nb       # nombre de pilotes en piste et pas dans les stands
 
 
-# Drivers position on the F3 box
+# Drivers position on the F3 box (calculé par rapport à la caméra)
 def calc_posf3(ir_session):
     caridxCAM = ir_session.ir["CamCarIdx"]
     cl_sel = int(ir_session.nb_piste / 2 + 1)

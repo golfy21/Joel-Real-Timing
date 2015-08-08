@@ -4,11 +4,11 @@
 // You can edit the line below if you want to change which column is displayed or not (the order is not important here :
 tab_titres = ["pos", "cpos", "num", "name", "ir", "lic", "rel", "delta", "gap", "last", "best", "lc", "speed", "apex_speed", "max_speed", "stint", "pit", "pitroadtime", "pitstalltime", "inc"];
 
-disp_trackmap = 0       // Set 1 if you want to display the trackmap
+disp_kg_livre = 1       // Set 1 if you want to display the fuel in kg or in pounds
 
+disp_trackmap = 0       // Set 1 if you want to display the trackmap
 tires_buttons = 0
 autoscroll = 1          // Spécify if you want the timing to scroll automatically to the selected driver
-
 disp_paypal = 0		// Set 0 if you want to hide paypal link
 disp_infosbar = 1	// Set 0 if you don't need the infos bar, set 1 to have the infos on 1 line and set 2 to have the infos on 2 lines
 disp_fuelinfos = 1	// Set 0 if you don't want to show the fuel infos

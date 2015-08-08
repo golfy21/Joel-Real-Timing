@@ -147,7 +147,11 @@ function init_var() {
     wait = 0;
     clt_idxp1 = 1;
     disp_param = 0;
-    coef_fuel = 1;  // unités d'essence en litre par defaut (0.75 pour les kg)
+    if (disp_kg_livre == 1) {
+        coef_fuel = 0.75;
+    } else {
+        coef_fuel = 1;  // unités d'essence en litre par defaut (0.75 pour les kg)
+    }
     calcfuel_mode = 0; // 0 -> calculs en tenant compte du dernier tour, 1 -> on tient compte de la moyenne des 5 derniers tours
     teamracing_received = 0;
     document.getElementById("app_name").innerHTML = "Joel Real Timing v" + version;

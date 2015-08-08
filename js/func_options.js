@@ -7,13 +7,13 @@ function button_events() {
                 document.getElementById("opt_f3_box").checked = true;
                 class_selected = 0;
                 classement_old = classement;
-                selected_idxjsold = selected_idxjs;
+                selected_idx_before_f3 = selected_idxjs;
                 selected_idxjs = selected_idx;  // le mode f3 ne fonctionne que pour le pilote sélectionné dans le jeu
             } else {
                 f3_box = 0;
                 document.getElementById("opt_f3_box").checked = false;
                 classement = classement_old;
-                selected_idxjs = selected_idxjsold;
+                selected_idxjs = selected_idx_before_f3;
                 sort(classement);
                 for (k in donnees.d) clt_old[k] = clt[k]
             }
@@ -40,6 +40,7 @@ function button_events() {
 function scroll_to_selected_idxjs() {
     // Calcul du nombre de lignes affichées au-dessus du pilote sélectionné
     n = Math.floor((parseInt($("#container").css("height")) / Math.floor(coef_ligne * ligne_h))/2);
+
     if (autoscroll == 1 && selected_idxjs_scrollpos != -1) {
         document.getElementById("container").scrollTop = selected_idxjs_scrollpos - n * Math.floor(coef_ligne * ligne_h);
     }
@@ -70,15 +71,15 @@ function opt_tires_buttons(elt) {
 function opt_f3_box(elt) {
     if (elt.checked) {
         f3_box = 1;
+        selected_idx_before_f3 = selected_idxjs;
         class_selected = 0;
         update_datas(-1);
         classement_old = classement;
-        selected_idxjsold = selected_idxjs;
         selected_idxjs = selected_idx;  // le mode f3 ne fonctionne que pour le pilote sélectionné dans le jeu
     } else {
         f3_box = 0;
         classement = classement_old;
-        selected_idxjs = selected_idxjsold;
+        selected_idxjs = selected_idx_before_f3;
         sort(classement);
         for (k in donnees.d) clt_old[k] = clt[k]
     }
@@ -98,24 +99,27 @@ function trackmap() {
     trackmap_context.clearRect(0, 0, container_w, container_h);
 
     me = donnees.me;
-    if (me != undefined) {
+    if (selected_idxjs != undefined && selected_idxjs in donnees.d) {
         //trackmap_context.beginPath(); //On démarre un nouveau tracé.
 
-        dp = donnees.d[me].dp;
+        dp = donnees.d[selected_idxjs].dp;
         ldp = dp - Math.floor(dp);
         trackmap_context.globalAlpha=1;
-        driver_on_trackmap("rgba(255,255,255,0.75)", ldp, me, 2.5, 1, 1);
+        driver_on_trackmap("rgba(255,255,255,0.75)", ldp, selected_idxjs, 2.5, 1, 1);
         dp_exit = donnees.pexit;
         ldp_exit = dp_exit - Math.floor(dp_exit);
-        driver_on_trackmap("rgba(255,128,0,0.75)", ldp_exit, me, 2.5, 1, 1);
+        if (selected_idxjs == me)  // On affiche l'estimation après la sortie des pits que pour le pilote local
+            driver_on_trackmap("rgba(255,128,0,0.75)", ldp_exit, selected_idxjs, 2.5, 1, 1);
 
         // Si je suis dans les pits, on change ma couleur en rajoutant une couche grise dessus
         trackmap_context.globalAlpha=0.66;
-        if (donnees.d[me].p) {
-            driver_on_trackmap("#666666", ldp, me, 2.5, 1, 1);
+        if (donnees.d[selected_idxjs].p) {
+            driver_on_trackmap("#666666", ldp, selected_idxjs, 2.5, 1, 1);
         }
 
         //trackmap_context.closePath();
+    } else {
+        dp_exit = -1;  // en dernier recours on donne une valeur à dp_exit si jamais on n'accède pas aux données
     }
 
     // Affichage des autres pilotes
@@ -124,17 +128,24 @@ function trackmap() {
         //if (i != me && !( (donnees.d[i].fr == 0) && (donnees.d[i].ts == -1 || donnees.d[i].s < 1) )) {
         //if (i != me && (donnees.d[i].ts != -1)) {
         //if (i != me && donnees.d[i].s > 1 && donnees.d[i].p == 0) {
-        if (i != me) {
+        if ((donnees.d[i].p == 1 || donnees.d[i].s > 1)) {
             dp = donnees.d[i].dp;
             ldp = dp - Math.floor(dp);
             coul = "rgba(255,0,0,0.5)";
 
-            trackmap_context.globalAlpha=0.75;
-            // Si le pilote a un tour de retard on rajoute du bleu, et s'il a un tour d'avance on met du bleu (sinon du noir
-            if (donnees.d[i].dp - dp_exit > 0.5)
-                driver_on_trackmap("#ff5555", ldp, i, 1.5, 0, 2);
-            if (donnees.d[i].dp - dp_exit < -0.5)
-                driver_on_trackmap("#55aaff", ldp, i, 1.5, 0, 2);
+            // Si on n'a pas pu calculer le dp_exit auparavant on prend la position du pilote sélectionné
+            if (me != selected_idxjs && selected_idxjs in donnees.d) {
+                dp_exit = donnees.d[selected_idxjs].dp
+            }
+
+            if (i != selected_idxjs) {
+                trackmap_context.globalAlpha = 0.75;
+                // Si le pilote a un tour de retard on rajoute du bleu, et s'il a un tour d'avance on met du bleu (sinon du noir
+                if (donnees.d[i].dp - dp_exit > 0.5)
+                    driver_on_trackmap("#ff5555", ldp, i, 1.5, 0, 2);
+                if (donnees.d[i].dp - dp_exit < -0.5)
+                    driver_on_trackmap("#55aaff", ldp, i, 1.5, 0, 2);
+            }
 
             // Couleur de la class du pilote
             str = donnees.d[i].cc;
@@ -151,12 +162,15 @@ function trackmap() {
             coul = "#" + str;
             //if (donnees.d[i].s < 1)
             //    coul = "rgba(255,128,0,0.5)";
-            driver_on_trackmap(coul, ldp, i, 1, 1, 1);
+            if (i != selected_idxjs)
+                driver_on_trackmap(coul, ldp, i, 1, 1, 1);
 
-            trackmap_context.globalAlpha=1;
-            // Si le pilote a pitté plus tard on le marque d'un petit point noir (seulement si plus d'un tour d'écart)
-            if (donnees.d[i].sti < donnees.d[me].sti - 1)
-                driver_on_trackmap("#000000", ldp, i, 0.33, 1, 1);
+            if (selected_idxjs in donnees.d) {
+                trackmap_context.globalAlpha = 1;
+                // Si le pilote a pitté plus tard on le marque d'un petit point noir (seulement si plus d'un tour d'écart)
+                if (donnees.d[i].sti < donnees.d[selected_idxjs].sti - 1)
+                    driver_on_trackmap("#000000", ldp, i, 0.33, 1, 1);
+            }
 
             // Si un pilote est dans les pits, on change sa couleur en rajoutant une couche grise dessus
             /*trackmap_context.globalAlpha=0.66;
@@ -194,9 +208,9 @@ function driver_on_trackmap(coul, ldp, caridx, taille, plein, epaisseur_trait) {
 
         // Si le driver est dans les stands, on le décale sur le côté de la piste
         l = Math.sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
-        if (donnees.d[i].p && l != 0) {
-            decale_x = -(y2 - y1) / l * track_epaisseur * 2;
-            decale_y = (x2 - x1) / l * track_epaisseur * 2;
+        if (donnees.d[caridx].p && l != 0) {
+            decale_x = -(y2 - y1) / l * track_epaisseur * 1.5;
+            decale_y = (x2 - x1) / l * track_epaisseur * 1.5;
         } else {
             decale_x = 0;
             decale_y = 0

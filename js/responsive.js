@@ -8,9 +8,9 @@ function responsive_dim(param) {
     }
 
     // Si ce n'est pas une course en team en passe du mode 5 ou du mode 6 au mode 1
-    if ((name_mode == 5 || name_mode == 6) && (donnees.teamracing == 0))
+    if ((name_mode == 5 || name_mode == 6) && (donnees.teamracing == 0)) {
         name_mode_ = 1;
-    else {
+    } else {
         name_mode_ = name_mode;
     }
 
